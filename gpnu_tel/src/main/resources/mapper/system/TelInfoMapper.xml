@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TelInfoMapper">
+    
+    <resultMap type="TelInfo" id="TelInfoResult">
+        <result property="id"    column="id"    />
+        <result property="level"    column="level"    />
+        <result property="departmentLevel"    column="department_level"    />
+        <result property="officeLevel"    column="office_level"    />
+        <result property="campus"    column="campus"    />
+        <result property="mechanism"    column="mechanism"    />
+        <result property="departmentType"    column="department_type"    />
+        <result property="officeBuilder"    column="office_builder"    />
+        <result property="officeNumber"    column="office_number"    />
+        <result property="officeName"    column="office_name"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectTelInfoVo">
+        select id, level,department_level,office_level, campus, mechanism, department_type, office_builder, office_number, office_name, telephone, create_by, create_time, update_by, update_time, remark from tel_info
+    </sql>
+
+    <sql id="order">
+        order by level,department_level,office_level
+    </sql>
+
+    <select id="selectTelInfoList" parameterType="TelInfo" resultMap="TelInfoResult">
+        <include refid="selectTelInfoVo"/>
+        <where>  
+            <if test="level != null "> and level = #{level}</if>
+            <if test="departmentLevel != null "> and department_level = #{departmentLevel}</if>
+            <if test="officeLevel != null "> and office_level = #{officeLevel}</if>
+            <if test="campus != null  and campus != ''"> and campus = #{campus}</if>
+            <if test="mechanism != null  and mechanism != ''"> and mechanism = #{mechanism}</if>
+            <if test="departmentType != null  and departmentType != ''"> and department_type = #{departmentType}</if>
+            <if test="officeBuilder != null  and officeBuilder != ''"> and office_builder = #{officeBuilder}</if>
+            <if test="officeNumber != null  and officeNumber != ''"> and office_number = #{officeNumber}</if>
+            <if test="officeName != null  and officeName != ''"> and office_name like concat('%', #{officeName}, '%')</if>
+            <if test="telephone != null  and telephone != ''"> and telephone = #{telephone}</if>
+        </where>
+        <include refid="order"></include>
+    </select>
+    
+    <select id="fuzzyQueryTelInfo" resultMap="TelInfoResult" parameterType="TelInfo">
+        <include refid="selectTelInfoVo"/>
+        <where>
+            <if test="campus != null  and campus != ''"> and campus like concat('%', #{campus}, '%')</if>
+            <if test="mechanism != null  and mechanism != ''"> and mechanism like concat('%', #{mechanism}, '%')</if>
+            <if test="departmentType != null  and departmentType != ''"> and department_type like concat('%', #{departmentType}, '%')</if>
+            <if test="officeName != null  and officeName != ''"> and office_name like concat('%', #{officeName}, '%')</if>
+            <if test="telephone != null  and telephone != ''"> and telephone like concat('%', #{telephone}, '%')</if>
+        </where>
+        <include refid="order"></include>
+    </select>
+    
+    <select id="selectTelInfoById" parameterType="Long" resultMap="TelInfoResult">
+        <include refid="selectTelInfoVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTelInfo" parameterType="TelInfo">
+        insert into tel_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="level != null">level,</if>
+            <if test="departmentLevel != null">department_level,</if>
+            <if test="officeLevel != null">office_level,</if>
+            <if test="campus != null">campus,</if>
+            <if test="mechanism != null">mechanism,</if>
+            <if test="departmentType != null">department_type,</if>
+            <if test="officeBuilder != null">office_builder,</if>
+            <if test="officeNumber != null">office_number,</if>
+            <if test="officeName != null">office_name,</if>
+            <if test="telephone != null">telephone,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="level != null">#{level},</if>
+            <if test="departmentLevel != null">#{departmentLevel},</if>
+            <if test="officeLevel != null">#{officeLevel},</if>
+            <if test="campus != null">#{campus},</if>
+            <if test="mechanism != null">#{mechanism},</if>
+            <if test="departmentType != null">#{departmentType},</if>
+            <if test="officeBuilder != null">#{officeBuilder},</if>
+            <if test="officeNumber != null">#{officeNumber},</if>
+            <if test="officeName != null">#{officeName},</if>
+            <if test="telephone != null">#{telephone},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTelInfo" parameterType="TelInfo">
+        update tel_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="level != null">level = #{level},</if>
+            <if test="departmentLevel != null">department_level = #{departmentLevel},</if>
+            <if test="officeLevel != null">office_level = #{officeLevel},</if>
+            <if test="campus != null">campus = #{campus},</if>
+            <if test="mechanism != null">mechanism = #{mechanism},</if>
+            <if test="departmentType != null">department_type = #{departmentType},</if>
+            <if test="officeBuilder != null">office_builder = #{officeBuilder},</if>
+            <if test="officeNumber != null">office_number = #{officeNumber},</if>
+            <if test="officeName != null">office_name = #{officeName},</if>
+            <if test="telephone != null">telephone = #{telephone},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTelInfoById" parameterType="Long">
+        delete from tel_info where id = #{id}
+    </delete>
+
+    <delete id="deleteTelInfoByIds" parameterType="String">
+        delete from tel_info where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
